@@ -1,0 +1,34 @@
+version: "3.3"
+
+services:
+  exercisetracker-ui:
+    build:
+      context: ./exercisetracker-ui
+    ports:
+      - 3000:3000
+    volumes:
+      - ./exercisetracker-ui:/app
+    depends_on:
+      - exercisetracker-backend
+
+  exercisetracker-backend:
+    build:
+      context: ./exercisetracker-backend
+    ports:
+      - 4000:4000
+    volumes:
+      - ./exercisetracker-backend:/app
+    depends_on:
+      - mongo_db
+
+  mongo_db:
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo_db:/data/db
+
+volumes:
+  mongo_db:
